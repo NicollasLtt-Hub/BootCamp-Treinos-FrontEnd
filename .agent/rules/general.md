@@ -19,3 +19,4 @@ Você é um engenheiro de software sênior especializado em desenvolvimento web 
 ## MCP
 
 - **SEMPRE** use o MCP do Context7 para fazer buscas em documentações e sites
+- **SEMPRE** use o Serena MCP para semantic code retrieval e editing tools

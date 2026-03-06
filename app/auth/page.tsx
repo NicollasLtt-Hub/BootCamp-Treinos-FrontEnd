@@ -38,6 +38,8 @@ const AuthPage = () => {
                 />
             </div>
 
+
+
             <div className="relative z-10 flex flex-col items-center gap-12 rounded-t-3xl bg-primary px-5 pb-10 pt-12">
                 <div className="flex flex-col items-center gap-6">
                     <h1 className="max-w-[362px] text-center font-[family-name:var(--font-inter-tight)] text-[32px] font-semibold leading-[33.6px] text-primary-foreground">

@@ -3,12 +3,30 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getHomeData } from "./_lib/api/fetch-generated";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import Link from "next/link";
 import Image from "next/image";
 import WorkoutDayCard from "@/components/workout-day-card";
 import WeeklyConsistency from "@/components/weekly-consistency";
 import BottomNav from "@/components/layout/bottom-nav";
 import { Flame } from "lucide-react";
+
+dayjs.extend(utc);
+
+const WEEKDAY_NAMES = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"] as const;
+
+function mapConsistencyToWeekdays(
+  consistencyByDay: Record<string, { workoutDayCompleted: boolean; workoutDayStarted: boolean }>
+): Record<string, { workoutDayCompleted: boolean; workoutDayStarted: boolean }> {
+  const mapped: Record<string, { workoutDayCompleted: boolean; workoutDayStarted: boolean }> = {};
+  for (const [dateKey, value] of Object.entries(consistencyByDay)) {
+    const weekdayName = WEEKDAY_NAMES[dayjs.utc(dateKey).day()];
+    if (weekdayName) {
+      mapped[weekdayName] = value;
+    }
+  }
+  return mapped;
+}
 
 export default async function Home() {
   const session = await authClient.getSession({
@@ -26,6 +44,11 @@ export default async function Home() {
   const homeData = homeResponse.status === 200 ? homeResponse.data : null;
   const todayWorkout = homeData?.todayWorkoutDay;
   const userName = session.data.user.name?.split(" ")[0] ?? "Atleta";
+  const consistencyByDay = homeData?.consistencyByDay
+    ? mapConsistencyToWeekdays(homeData.consistencyByDay)
+    : {};
+
+  // console.log(homeData);
 
   return (
     <div className="flex min-h-dvh flex-col bg-background">
@@ -79,7 +102,7 @@ export default async function Home() {
         <div className="flex items-stretch gap-3">
           <div className="flex-1 rounded-xl border border-border p-5">
             <WeeklyConsistency
-              consistencyByDay={homeData?.consistencyByDay ?? {}}
+              consistencyByDay={consistencyByDay}
               todayKey={
                 ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"][dayjs().day()]
               }

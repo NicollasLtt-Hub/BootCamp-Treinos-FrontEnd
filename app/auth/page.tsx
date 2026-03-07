@@ -3,18 +3,20 @@
 import { authClient } from "@/app/_lib/auth-client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { SignInWithGoogle } from "./_components/sign-in-with-google";
 
 const AuthPage = () => {
     const router = useRouter();
     const { data: session, isPending } = authClient.useSession();
 
-    if (isPending) {
-        return null;
-    }
+    useEffect(() => {
+        if (session) {
+            router.replace("/");
+        }
+    }, [session, router]);
 
-    if (session) {
-        router.replace("/");
+    if (isPending || session) {
         return null;
     }
 

@@ -21,10 +21,10 @@ export default async function Home() {
 
   const homeResponse = await getHomeData(dayjs().format("YYYY-MM-DD"));
 
-  if (homeResponse.status !== 200) redirect("/auth");
+  if (homeResponse.status === 401) redirect("/auth");
 
-  const homeData = homeResponse.data;
-  const todayWorkout = homeData.todayWorkoutDay;
+  const homeData = homeResponse.status === 200 ? homeResponse.data : null;
+  const todayWorkout = homeData?.todayWorkoutDay;
   const userName = session.data.user.name?.split(" ")[0] ?? "Atleta";
 
   return (
@@ -79,7 +79,7 @@ export default async function Home() {
         <div className="flex items-stretch gap-3">
           <div className="flex-1 rounded-xl border border-border p-5">
             <WeeklyConsistency
-              consistencyByDay={homeData.consistencyByDay}
+              consistencyByDay={homeData?.consistencyByDay ?? {}}
               todayKey={
                 ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"][dayjs().day()]
               }
@@ -88,7 +88,7 @@ export default async function Home() {
           <div className="flex items-center gap-2 rounded-xl bg-streak px-5 py-2">
             <Flame className="size-5 text-streak-foreground" />
             <span className="font-[family-name:var(--font-inter-tight)] text-base font-semibold text-foreground">
-              {homeData.workoutStreak}
+              {homeData?.workoutStreak ?? 0}
             </span>
           </div>
         </div>

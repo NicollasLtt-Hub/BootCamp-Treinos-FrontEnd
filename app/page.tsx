@@ -126,7 +126,7 @@ export default async function Home() {
         </div>
 
         {todayWorkout && !todayWorkout.isRest ? (
-          <Link href="#">
+          <Link href={`/workout-plans/${todayWorkout.workoutPlanId}/days/${todayWorkout.id}`}>
             <WorkoutDayCard
               name={todayWorkout.name}
               weekDay={todayWorkout.weekDay}

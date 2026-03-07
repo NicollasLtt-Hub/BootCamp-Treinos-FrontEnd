@@ -67,7 +67,14 @@ export function ProfileForm() {
 
 ## Estilização
 
-- **NUNCA** use cores hard-coded do Tailwind (como `text-white`, `text-white/70`, `bg-black`, `bg-white`, `text-black`, `border-[#f1f1f1]`, `bg-[#2b54ff]`, `bg-[oklch(...)]` etc.). **SEMPRE** use as cores do tema definidas em @app/globals.css (ex: `text-background`, `text-background/70`, `bg-foreground`, `text-foreground`, `bg-primary`, `text-primary-foreground`, `border-border` etc.). Caso a cor necessária não exista no tema, crie uma nova variável CSS em @app/globals.css seguindo o padrão existente.
+- **NUNCA, EM HIPÓTESE ALGUMA**, use cores hard-coded do Tailwind. Isso inclui, mas não se limita a:
+  - Cores nativas como: `text-white`, `text-white/70`, `bg-black`, `bg-white`, `text-black`, `text-gray-500`
+  - Cores arbitrárias como: `border-[#f1f1f1]`, `bg-[#2b54ff]`, `text-[#656565]`, `bg-[rgba(240,97,0,0.08)]`, `bg-[oklch(...)]`
+  
+  **SEMPRE** use as cores do tema definidas em @app/globals.css (ex: `text-background`, `text-background/70`, `bg-foreground`, `text-foreground`, `bg-primary`, `text-primary-foreground`, `border-border`, `text-muted-foreground`, `bg-muted` etc.).
+  
+  Caso a cor necessária não exista no tema, **crie uma nova variável CSS** em @app/globals.css seguindo o padrão existente (adicionando no `@theme`, `:root` e `.dark`).
+  
 - Antes de criar uma nova variável de cor, **SEMPRE** busque na documentação do shadcn/ui sobre theming e veja se realmente é necessário.
 - **SEMPRE** veja os componentes que podem ser reutilizados para construção de uma página em @components/ui/page.tsx.
 

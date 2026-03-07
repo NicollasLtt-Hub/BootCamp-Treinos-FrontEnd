@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, Inter_Tight } from "next/font/google";
+import { Anton, Geist, Geist_Mono, Inter, Inter_Tight } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,6 +22,12 @@ const interTight = Inter_Tight({
   subsets: ["latin"],
 });
 
+const anton = Anton({
+  variable: "--font-anton",
+  subsets: ["latin"],
+  weight: "400",
+});
+
 export const metadata: Metadata = {
   title: "FIT.AI",
   description: "O app que vai transformar a forma como você treina.",
@@ -33,9 +39,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className="dark">
+    <html lang="pt-BR">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${interTight.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${interTight.variable} ${anton.variable} antialiased`}
       >
         {children}
       </body>
